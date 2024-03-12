@@ -25,7 +25,7 @@ async function test1() {
 test1()
 ```
 
-## Merge *.js, *.ts, *.c and *.cc files from a specified repository and branch (testing).
+## Merge *.js, *.ts, *.c and *.cc files from a specified repository and branch `testing`.
 
 ```js
 import { repojoin } from "repojoin";
