@@ -1,4 +1,4 @@
-import { repojoin } from '../src'
+import { repojoin, folderjoin } from '../src'
 
 const repoUrl = 'https://github.com/yusenjeng/repojoin-test'
 
@@ -56,7 +56,10 @@ int main() {
     return 0;
 }`
 
-describe('repoJoin', () => {
+const case4 =
+  "\n# File: test/data/c/a.c\n\n#include <stdio.h>\nint main() {\n   // printf() displays the string inside quotation\n   printf(\"Hello, World!\");\n   return 0;\n}\n\n# File: test/data/js/a.js\n\nconsole.log('js')\n\n\n# File: test/data/ts/a.ts\n\nconsole.log('ts')\n"
+
+describe('repojoin', () => {
   it('successfully joins repository files based on target extensions', async () => {
     const result = await repojoin(repoUrl, ['.js', '.ts'])
     expect(result).toBe(case1)
@@ -70,5 +73,13 @@ describe('repoJoin', () => {
       'testing'
     )
     expect(result3).toBe(case3)
+  })
+})
+
+describe('folderjoin', () => {
+  it('successfully joins files within a folder recursively based on target extensions', () => {
+    const result = folderjoin('test/data/', ['.ts', '.js', '.c'])
+    console.log(JSON.stringify(result))
+    expect(result).toBe(case4)
   })
 })

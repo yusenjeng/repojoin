@@ -1,5 +1,7 @@
 import axios from 'axios'
 import AdmZip from 'adm-zip'
+import fs from 'fs'
+import path from 'path'
 
 interface FileContent {
   path: string
@@ -44,5 +46,39 @@ export async function repojoin(
 ): Promise<string> {
   const zipBuffer = await fetchRepoZip(repoUrl, branch)
   const fileContents = extractTargetFiles(zipBuffer, targetExtensions)
+  return concatenateFileContents(fileContents)
+}
+
+function readDirectory(
+  directoryPath: string,
+  targetExtensions: string[]
+): FileContent[] {
+  const files: FileContent[] = []
+
+  function processEntry(entryPath: string) {
+    const stats = fs.statSync(entryPath)
+
+    if (stats.isDirectory()) {
+      fs.readdirSync(entryPath).forEach(subEntry => {
+        processEntry(path.join(entryPath, subEntry))
+      })
+    } else if (targetExtensions.some(ext => entryPath.endsWith(ext))) {
+      files.push({
+        path: entryPath,
+        content: fs.readFileSync(entryPath, 'utf8'),
+      })
+    }
+  }
+
+  processEntry(directoryPath)
+
+  return files
+}
+
+export function folderjoin(
+  directoryPath: string,
+  targetExtensions: string[]
+): string {
+  const fileContents = readDirectory(directoryPath, targetExtensions)
   return concatenateFileContents(fileContents)
 }
