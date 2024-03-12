@@ -1,6 +1,6 @@
 {
   "name": "repojoin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "`repojoin` consolidates the contents of selected files from a GitHub repository.",
   "main": "./lib/index.js",
   "files": [

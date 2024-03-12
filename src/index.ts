@@ -37,7 +37,7 @@ function concatenateFileContents(fileContents: FileContent[]): string {
     .join('\n')
 }
 
-export async function repoJoin(
+export async function repojoin(
   repoUrl: string,
   targetExtensions: string[],
   branch: string = 'main'

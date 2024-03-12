@@ -1,4 +1,4 @@
-import { repoJoin } from '../src'
+import { repojoin } from '../src'
 
 const repoUrl = 'https://github.com/yusenjeng/repojoin-test'
 
@@ -58,13 +58,13 @@ int main() {
 
 describe('repoJoin', () => {
   it('successfully joins repository files based on target extensions', async () => {
-    const result = await repoJoin(repoUrl, ['.js', '.ts'])
+    const result = await repojoin(repoUrl, ['.js', '.ts'])
     expect(result).toBe(case1)
 
-    const result2 = await repoJoin(repoUrl, ['.js', '.ts', 'c'])
+    const result2 = await repojoin(repoUrl, ['.js', '.ts', 'c'])
     expect(result2).toBe(case2)
 
-    const result3 = await repoJoin(
+    const result3 = await repojoin(
       repoUrl,
       ['.js', '.ts', 'c', 'cc'],
       'testing'
